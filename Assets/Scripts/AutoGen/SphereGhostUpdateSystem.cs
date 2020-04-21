@@ -9,7 +9,7 @@ using Unity.Entities;
 using Unity.Transforms;
 
 [UpdateInGroup(typeof(GhostUpdateSystemGroup))]
-public class SphereGhostUpdateSystem : JobComponentSystem
+public class PuckGhostUpdateSystem : JobComponentSystem
 {
     [BurstCompile]
     struct UpdateInterpolatedJob : IJobChunk
@@ -22,7 +22,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
         public int ThreadIndex;
 #pragma warning restore 649
 #endif
-        [ReadOnly] public ArchetypeChunkBufferType<SphereSnapshotData> ghostSnapshotDataType;
+        [ReadOnly] public ArchetypeChunkBufferType<PuckSnapshotData> ghostSnapshotDataType;
         [ReadOnly] public ArchetypeChunkEntityType ghostEntityType;
         public ArchetypeChunkComponentType<Rotation> ghostRotationType;
         public ArchetypeChunkComponentType<Translation> ghostTranslationType;
@@ -55,7 +55,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
                         minMaxSnapshotTick[minMaxOffset + 1] = latestTick;
                 }
 #endif
-                SphereSnapshotData snapshotData;
+                PuckSnapshotData snapshotData;
                 snapshot.GetDataAtTick(targetTick, targetTickFraction, out snapshotData);
 
                 var ghostRotation = ghostRotationArray[entityIndex];
@@ -79,7 +79,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
         public int ThreadIndex;
 #pragma warning restore 649
         [NativeDisableParallelForRestriction] public NativeArray<uint> minPredictedTick;
-        [ReadOnly] public ArchetypeChunkBufferType<SphereSnapshotData> ghostSnapshotDataType;
+        [ReadOnly] public ArchetypeChunkBufferType<PuckSnapshotData> ghostSnapshotDataType;
         [ReadOnly] public ArchetypeChunkEntityType ghostEntityType;
         public ArchetypeChunkComponentType<PredictedGhostComponent> predictedGhostComponentType;
         public ArchetypeChunkComponentType<Rotation> ghostRotationType;
@@ -113,7 +113,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
                         minMaxSnapshotTick[minMaxOffset + 1] = latestTick;
                 }
 #endif
-                SphereSnapshotData snapshotData;
+                PuckSnapshotData snapshotData;
                 snapshot.GetDataAtTick(targetTick, out snapshotData);
 
                 var predictedData = predictedGhostComponentArray[entityIndex];
@@ -159,7 +159,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
         m_interpolatedQuery = GetEntityQuery(new EntityQueryDesc
         {
             All = new []{
-                ComponentType.ReadWrite<SphereSnapshotData>(),
+                ComponentType.ReadWrite<PuckSnapshotData>(),
                 ComponentType.ReadOnly<GhostComponent>(),
                 ComponentType.ReadWrite<Rotation>(),
                 ComponentType.ReadWrite<Translation>(),
@@ -169,14 +169,14 @@ public class SphereGhostUpdateSystem : JobComponentSystem
         m_predictedQuery = GetEntityQuery(new EntityQueryDesc
         {
             All = new []{
-                ComponentType.ReadOnly<SphereSnapshotData>(),
+                ComponentType.ReadOnly<PuckSnapshotData>(),
                 ComponentType.ReadOnly<GhostComponent>(),
                 ComponentType.ReadOnly<PredictedGhostComponent>(),
                 ComponentType.ReadWrite<Rotation>(),
                 ComponentType.ReadWrite<Translation>(),
             }
         });
-        RequireForUpdate(GetEntityQuery(ComponentType.ReadWrite<SphereSnapshotData>(),
+        RequireForUpdate(GetEntityQuery(ComponentType.ReadWrite<PuckSnapshotData>(),
             ComponentType.ReadOnly<GhostComponent>()));
     }
     protected override JobHandle OnUpdate(JobHandle inputDeps)
@@ -190,7 +190,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
                 minMaxSnapshotTick = m_ghostMinMaxSnapshotTick,
 #endif
                 minPredictedTick = m_GhostPredictionSystemGroup.OldestPredictedTick,
-                ghostSnapshotDataType = GetArchetypeChunkBufferType<SphereSnapshotData>(true),
+                ghostSnapshotDataType = GetArchetypeChunkBufferType<PuckSnapshotData>(true),
                 ghostEntityType = GetArchetypeChunkEntityType(),
                 predictedGhostComponentType = GetArchetypeChunkComponentType<PredictedGhostComponent>(),
                 ghostRotationType = GetArchetypeChunkComponentType<Rotation>(),
@@ -213,7 +213,7 @@ public class SphereGhostUpdateSystem : JobComponentSystem
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
                 minMaxSnapshotTick = m_ghostMinMaxSnapshotTick,
 #endif
-                ghostSnapshotDataType = GetArchetypeChunkBufferType<SphereSnapshotData>(true),
+                ghostSnapshotDataType = GetArchetypeChunkBufferType<PuckSnapshotData>(true),
                 ghostEntityType = GetArchetypeChunkEntityType(),
                 ghostRotationType = GetArchetypeChunkComponentType<Rotation>(),
                 ghostTranslationType = GetArchetypeChunkComponentType<Translation>(),
@@ -225,6 +225,6 @@ public class SphereGhostUpdateSystem : JobComponentSystem
         return inputDeps;
     }
 }
-public partial class SphereGhostSpawnSystem : DefaultGhostSpawnSystem<SphereSnapshotData>
+public partial class PuckGhostSpawnSystem : DefaultGhostSpawnSystem<PuckSnapshotData>
 {
 }

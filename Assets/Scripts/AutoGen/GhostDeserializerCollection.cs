@@ -11,8 +11,8 @@ public struct SelfDev_NetcodeGhostDeserializerCollection : IGhostDeserializerCol
     {
         var arr = new string[]
         {
-            "CubeGhostSerializer",
-            "SphereGhostSerializer",
+            "PlayerGhostSerializer",
+            "PuckGhostSerializer",
         };
         return arr;
     }
@@ -21,20 +21,20 @@ public struct SelfDev_NetcodeGhostDeserializerCollection : IGhostDeserializerCol
 #endif
     public void Initialize(World world)
     {
-        var curCubeGhostSpawnSystem = world.GetOrCreateSystem<CubeGhostSpawnSystem>();
-        m_CubeSnapshotDataNewGhostIds = curCubeGhostSpawnSystem.NewGhostIds;
-        m_CubeSnapshotDataNewGhosts = curCubeGhostSpawnSystem.NewGhosts;
-        curCubeGhostSpawnSystem.GhostType = 0;
-        var curSphereGhostSpawnSystem = world.GetOrCreateSystem<SphereGhostSpawnSystem>();
-        m_SphereSnapshotDataNewGhostIds = curSphereGhostSpawnSystem.NewGhostIds;
-        m_SphereSnapshotDataNewGhosts = curSphereGhostSpawnSystem.NewGhosts;
-        curSphereGhostSpawnSystem.GhostType = 1;
+        var curPlayerGhostSpawnSystem = world.GetOrCreateSystem<PlayerGhostSpawnSystem>();
+        m_PlayerSnapshotDataNewGhostIds = curPlayerGhostSpawnSystem.NewGhostIds;
+        m_PlayerSnapshotDataNewGhosts = curPlayerGhostSpawnSystem.NewGhosts;
+        curPlayerGhostSpawnSystem.GhostType = 0;
+        var curPuckGhostSpawnSystem = world.GetOrCreateSystem<PuckGhostSpawnSystem>();
+        m_PuckSnapshotDataNewGhostIds = curPuckGhostSpawnSystem.NewGhostIds;
+        m_PuckSnapshotDataNewGhosts = curPuckGhostSpawnSystem.NewGhosts;
+        curPuckGhostSpawnSystem.GhostType = 1;
     }
 
     public void BeginDeserialize(JobComponentSystem system)
     {
-        m_CubeSnapshotDataFromEntity = system.GetBufferFromEntity<CubeSnapshotData>();
-        m_SphereSnapshotDataFromEntity = system.GetBufferFromEntity<SphereSnapshotData>();
+        m_PlayerSnapshotDataFromEntity = system.GetBufferFromEntity<PlayerSnapshotData>();
+        m_PuckSnapshotDataFromEntity = system.GetBufferFromEntity<PuckSnapshotData>();
     }
     public bool Deserialize(int serializer, Entity entity, uint snapshot, uint baseline, uint baseline2, uint baseline3,
         ref DataStreamReader reader, NetworkCompressionModel compressionModel)
@@ -42,10 +42,10 @@ public struct SelfDev_NetcodeGhostDeserializerCollection : IGhostDeserializerCol
         switch (serializer)
         {
             case 0:
-                return GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeDeserialize(m_CubeSnapshotDataFromEntity, entity, snapshot, baseline, baseline2,
+                return GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeDeserialize(m_PlayerSnapshotDataFromEntity, entity, snapshot, baseline, baseline2,
                 baseline3, ref reader, compressionModel);
             case 1:
-                return GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeDeserialize(m_SphereSnapshotDataFromEntity, entity, snapshot, baseline, baseline2,
+                return GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeDeserialize(m_PuckSnapshotDataFromEntity, entity, snapshot, baseline, baseline2,
                 baseline3, ref reader, compressionModel);
             default:
                 throw new ArgumentException("Invalid serializer type");
@@ -57,24 +57,24 @@ public struct SelfDev_NetcodeGhostDeserializerCollection : IGhostDeserializerCol
         switch (serializer)
         {
             case 0:
-                m_CubeSnapshotDataNewGhostIds.Add(ghostId);
-                m_CubeSnapshotDataNewGhosts.Add(GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeSpawn<CubeSnapshotData>(snapshot, ref reader, compressionModel));
+                m_PlayerSnapshotDataNewGhostIds.Add(ghostId);
+                m_PlayerSnapshotDataNewGhosts.Add(GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeSpawn<PlayerSnapshotData>(snapshot, ref reader, compressionModel));
                 break;
             case 1:
-                m_SphereSnapshotDataNewGhostIds.Add(ghostId);
-                m_SphereSnapshotDataNewGhosts.Add(GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeSpawn<SphereSnapshotData>(snapshot, ref reader, compressionModel));
+                m_PuckSnapshotDataNewGhostIds.Add(ghostId);
+                m_PuckSnapshotDataNewGhosts.Add(GhostReceiveSystem<SelfDev_NetcodeGhostDeserializerCollection>.InvokeSpawn<PuckSnapshotData>(snapshot, ref reader, compressionModel));
                 break;
             default:
                 throw new ArgumentException("Invalid serializer type");
         }
     }
 
-    private BufferFromEntity<CubeSnapshotData> m_CubeSnapshotDataFromEntity;
-    private NativeList<int> m_CubeSnapshotDataNewGhostIds;
-    private NativeList<CubeSnapshotData> m_CubeSnapshotDataNewGhosts;
-    private BufferFromEntity<SphereSnapshotData> m_SphereSnapshotDataFromEntity;
-    private NativeList<int> m_SphereSnapshotDataNewGhostIds;
-    private NativeList<SphereSnapshotData> m_SphereSnapshotDataNewGhosts;
+    private BufferFromEntity<PlayerSnapshotData> m_PlayerSnapshotDataFromEntity;
+    private NativeList<int> m_PlayerSnapshotDataNewGhostIds;
+    private NativeList<PlayerSnapshotData> m_PlayerSnapshotDataNewGhosts;
+    private BufferFromEntity<PuckSnapshotData> m_PuckSnapshotDataFromEntity;
+    private NativeList<int> m_PuckSnapshotDataNewGhostIds;
+    private NativeList<PuckSnapshotData> m_PuckSnapshotDataNewGhosts;
 }
 public struct EnableSelfDev_NetcodeGhostReceiveSystemComponent : IComponentData
 {}

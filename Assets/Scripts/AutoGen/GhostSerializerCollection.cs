@@ -11,8 +11,8 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
     {
         var arr = new string[]
         {
-            "CubeGhostSerializer",
-            "SphereGhostSerializer",
+            "PlayerGhostSerializer",
+            "PuckGhostSerializer",
         };
         return arr;
     }
@@ -22,17 +22,17 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
     public static int FindGhostType<T>()
         where T : struct, ISnapshotData<T>
     {
-        if (typeof(T) == typeof(CubeSnapshotData))
+        if (typeof(T) == typeof(PlayerSnapshotData))
             return 0;
-        if (typeof(T) == typeof(SphereSnapshotData))
+        if (typeof(T) == typeof(PuckSnapshotData))
             return 1;
         return -1;
     }
 
     public void BeginSerialize(ComponentSystemBase system)
     {
-        m_CubeGhostSerializer.BeginSerialize(system);
-        m_SphereGhostSerializer.BeginSerialize(system);
+        m_PlayerGhostSerializer.BeginSerialize(system);
+        m_PuckGhostSerializer.BeginSerialize(system);
     }
 
     public int CalculateImportance(int serializer, ArchetypeChunk chunk)
@@ -40,9 +40,9 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
         switch (serializer)
         {
             case 0:
-                return m_CubeGhostSerializer.CalculateImportance(chunk);
+                return m_PlayerGhostSerializer.CalculateImportance(chunk);
             case 1:
-                return m_SphereGhostSerializer.CalculateImportance(chunk);
+                return m_PuckGhostSerializer.CalculateImportance(chunk);
         }
 
         throw new ArgumentException("Invalid serializer type");
@@ -53,9 +53,9 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
         switch (serializer)
         {
             case 0:
-                return m_CubeGhostSerializer.SnapshotSize;
+                return m_PlayerGhostSerializer.SnapshotSize;
             case 1:
-                return m_SphereGhostSerializer.SnapshotSize;
+                return m_PuckGhostSerializer.SnapshotSize;
         }
 
         throw new ArgumentException("Invalid serializer type");
@@ -67,18 +67,18 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
         {
             case 0:
             {
-                return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<CubeGhostSerializer, CubeSnapshotData>(m_CubeGhostSerializer, ref dataStream, data);
+                return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<PlayerGhostSerializer, PlayerSnapshotData>(m_PlayerGhostSerializer, ref dataStream, data);
             }
             case 1:
             {
-                return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<SphereGhostSerializer, SphereSnapshotData>(m_SphereGhostSerializer, ref dataStream, data);
+                return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<PuckGhostSerializer, PuckSnapshotData>(m_PuckGhostSerializer, ref dataStream, data);
             }
             default:
                 throw new ArgumentException("Invalid serializer type");
         }
     }
-    private CubeGhostSerializer m_CubeGhostSerializer;
-    private SphereGhostSerializer m_SphereGhostSerializer;
+    private PlayerGhostSerializer m_PlayerGhostSerializer;
+    private PuckGhostSerializer m_PuckGhostSerializer;
 }
 
 public struct EnableSelfDev_NetcodeGhostSendSystemComponent : IComponentData

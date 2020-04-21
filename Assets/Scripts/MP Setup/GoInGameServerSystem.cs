@@ -18,7 +18,7 @@ public class GoInGameServerSystem : ComponentSystem
                 UnityEngine.Debug.Log(String.Format("Server setting connection {0} to in game",
                     EntityManager.GetComponentData<NetworkIdComponent>(reqSrc.SourceConnection).Value));
                 var ghostCollection = GetSingleton<GhostPrefabCollectionComponent>();
-                var ghostId = SelfDev_NetcodeGhostSerializerCollection.FindGhostType<CubeSnapshotData>();
+                var ghostId = SelfDev_NetcodeGhostSerializerCollection.FindGhostType<PlayerSnapshotData>();
                 var prefab = EntityManager.GetBuffer<GhostPrefabBuffer>(ghostCollection.serverPrefabs)[ghostId].Value;
                 var player = EntityManager.Instantiate(prefab);
 
@@ -28,7 +28,7 @@ public class GoInGameServerSystem : ComponentSystem
 
                 bool up = (playerId % 2) == 0;
                 EntityManager.SetComponentData(player, new Translation { Value = up ?
-                    new float3(0f, 0f, 6f) : new float3(0f, 0f, -6f)});
+                    new float3(0f, 0f, POS) : new float3(0f, 0f, -POS)});
 
                 Debug.Log($"Creating input buffer {player}");
 
@@ -37,4 +37,6 @@ public class GoInGameServerSystem : ComponentSystem
                 PostUpdateCommands.DestroyEntity(reqEnt);
             });
     }
+
+    private const float POS = 6.5f;
 }

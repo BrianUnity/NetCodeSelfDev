@@ -11,12 +11,11 @@ GameObject:
   - component: {fileID: 4336591809607919609}
   - component: {fileID: 4336591809607919558}
   - component: {fileID: 4336591809607919559}
-  - component: {fileID: 4336591809607919556}
   - component: {fileID: 1848992791853268195}
   - component: {fileID: -5474891303852146325}
   - component: {fileID: -6381573881055655054}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Puck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &4336591809607919556
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4336591809607919557}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1848992791853268195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,6 +103,46 @@ MonoBehaviour:
   Importance: 1
   PredictingPlayerNetworkId: 
   Components:
+  - name: Unity.Physics.PhysicsCollider
+    interpolatedClient: 1
+    predictedClient: 1
+    server: 1
+    sendDataTo: 0
+    fields: []
+    manualFieldList: 0
+    entityIndex: 0
+  - name: Unity.Physics.PhysicsDamping
+    interpolatedClient: 1
+    predictedClient: 1
+    server: 1
+    sendDataTo: 0
+    fields: []
+    manualFieldList: 0
+    entityIndex: 0
+  - name: Unity.Physics.PhysicsGravityFactor
+    interpolatedClient: 1
+    predictedClient: 1
+    server: 1
+    sendDataTo: 0
+    fields: []
+    manualFieldList: 0
+    entityIndex: 0
+  - name: Unity.Physics.PhysicsMass
+    interpolatedClient: 1
+    predictedClient: 1
+    server: 1
+    sendDataTo: 0
+    fields: []
+    manualFieldList: 0
+    entityIndex: 0
+  - name: Unity.Physics.PhysicsVelocity
+    interpolatedClient: 1
+    predictedClient: 1
+    server: 1
+    sendDataTo: 0
+    fields: []
+    manualFieldList: 0
+    entityIndex: 0
   - name: Unity.Rendering.PerInstanceCullingTag
     interpolatedClient: 1
     predictedClient: 1
@@ -225,12 +251,12 @@ MonoBehaviour:
     m_Friction:
       m_Override: 0
       m_Value:
-        Value: 0.5
+        Value: 0
         CombineMode: 0
     m_Restitution:
       m_Override: 0
       m_Value:
-        Value: 0
+        Value: 1
         CombineMode: 2
     m_BelongsTo:
       m_Override: 0
@@ -240,7 +266,7 @@ MonoBehaviour:
       m_Value: 0101010101010101010101010101010101010101010101010101010101010101
     m_RaisesCollisionEvents:
       m_Override: 0
-      m_Value: 0
+      m_Value: 1
     m_CustomTags:
       m_Override: 0
       m_Value: 0000000000000000

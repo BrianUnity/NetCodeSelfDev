@@ -38,10 +38,6 @@ public class SampleCubeInput : ComponentSystem
             input.horizontal -= 1;
         if (Input.GetKey("d"))
             input.horizontal += 1;
-        if (Input.GetKey("s"))
-            input.vertical -= 1;
-        if (Input.GetKey("w"))
-            input.vertical += 1;
         
         var inputBuffer = EntityManager.GetBuffer<CubeInput>(localInput);
         inputBuffer.AddCommandData(input);

@@ -1,6 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.NetCode;
 using Unity.Transforms;
+using UnityEngine;
 
 [UpdateInGroup(typeof(GhostPredictionSystemGroup))]
 public class MoveCubeSystem : ComponentSystem
@@ -18,13 +19,14 @@ public class MoveCubeSystem : ComponentSystem
             CubeInput input;
             inputBuffer.GetDataAtTick(tick, out input);
             if (input.horizontal > 0)
-                trans.Value.x += deltaTime;
+                trans.Value.x += deltaTime * SPEED;
             if (input.horizontal < 0)
-                trans.Value.x -= deltaTime;
-            if (input.vertical > 0)
-                trans.Value.z += deltaTime;
-            if (input.vertical < 0)
-                trans.Value.z -= deltaTime;
+                trans.Value.x -= deltaTime * SPEED;
+
+            trans.Value.x = Mathf.Clamp(trans.Value.x, -LIMIT, LIMIT);
         });
     }
+
+    const float SPEED = 4f;
+    const float LIMIT = 7f;
 }

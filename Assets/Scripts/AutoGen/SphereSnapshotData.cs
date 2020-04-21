@@ -2,7 +2,7 @@ using Unity.Networking.Transport;
 using Unity.NetCode;
 using Unity.Mathematics;
 
-public struct SphereSnapshotData : ISnapshotData<SphereSnapshotData>
+public struct PuckSnapshotData : ISnapshotData<PuckSnapshotData>
 {
     public uint tick;
     private int RotationValueX;
@@ -53,7 +53,7 @@ public struct SphereSnapshotData : ISnapshotData<SphereSnapshotData>
         TranslationValueZ = (int)(val.z * 100);
     }
 
-    public void PredictDelta(uint tick, ref SphereSnapshotData baseline1, ref SphereSnapshotData baseline2)
+    public void PredictDelta(uint tick, ref PuckSnapshotData baseline1, ref PuckSnapshotData baseline2)
     {
         var predictor = new GhostDeltaPredictor(tick, this.tick, baseline1.tick, baseline2.tick);
         RotationValueX = predictor.PredictInt(RotationValueX, baseline1.RotationValueX, baseline2.RotationValueX);
@@ -65,7 +65,7 @@ public struct SphereSnapshotData : ISnapshotData<SphereSnapshotData>
         TranslationValueZ = predictor.PredictInt(TranslationValueZ, baseline1.TranslationValueZ, baseline2.TranslationValueZ);
     }
 
-    public void Serialize(int networkId, ref SphereSnapshotData baseline, ref DataStreamWriter writer, NetworkCompressionModel compressionModel)
+    public void Serialize(int networkId, ref PuckSnapshotData baseline, ref DataStreamWriter writer, NetworkCompressionModel compressionModel)
     {
         changeMask0 = (RotationValueX != baseline.RotationValueX ||
                                           RotationValueY != baseline.RotationValueY ||
@@ -90,7 +90,7 @@ public struct SphereSnapshotData : ISnapshotData<SphereSnapshotData>
         }
     }
 
-    public void Deserialize(uint tick, ref SphereSnapshotData baseline, ref DataStreamReader reader,
+    public void Deserialize(uint tick, ref PuckSnapshotData baseline, ref DataStreamReader reader,
         NetworkCompressionModel compressionModel)
     {
         this.tick = tick;
@@ -122,7 +122,7 @@ public struct SphereSnapshotData : ISnapshotData<SphereSnapshotData>
             TranslationValueZ = baseline.TranslationValueZ;
         }
     }
-    public void Interpolate(ref SphereSnapshotData target, float factor)
+    public void Interpolate(ref PuckSnapshotData target, float factor)
     {
         SetRotationValue(math.slerp(GetRotationValue(), target.GetRotationValue(), factor));
         SetTranslationValue(math.lerp(GetTranslationValue(), target.GetTranslationValue(), factor));
