@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 308473963}
   - component: {fileID: 308473962}
   m_Layer: 0
-  m_Name: CubeL
+  m_Name: WallL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 518666720}
   - component: {fileID: 518666719}
   m_Layer: 0
-  m_Name: CubeR
+  m_Name: WallR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,14 +564,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c75b8787d8624691813514d3823a59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SerializerCollectionPath: GhostSerializerCollection.cs
-  DeserializerCollectionPath: GhostDeserializerCollection.cs
+  SerializerCollectionPath: Scripts\AutoGen\GhostSerializerCollection.cs
+  DeserializerCollectionPath: Scripts\AutoGen\GhostDeserializerCollection.cs
   NamePrefix: SelfDev_Netcode
   Ghosts:
-  - prefab: {fileID: -5691384494519776994, guid: 5c690bdd863b40e41a927a02afd1bc54,
+  - prefab: {fileID: -5691384494519776994, guid: d7737d7509c024947a9d0c7ef70d1cd7,
       type: 3}
     enabled: 1
   - prefab: {fileID: 1848992791853268195, guid: dc419a080c4c8544892b15edbd7cd136,
+      type: 3}
+    enabled: 1
+  - prefab: {fileID: -6167395479466506008, guid: 4d6824e6318ee194aa4b57cf995982fe,
       type: 3}
     enabled: 1
 --- !u!1 &854919902
@@ -586,7 +589,7 @@ GameObject:
   - component: {fileID: 854919905}
   - component: {fileID: 854919904}
   m_Layer: 0
-  m_Name: CubeF
+  m_Name: WallF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -823,7 +826,7 @@ GameObject:
   - component: {fileID: 1208753788}
   - component: {fileID: 1208753787}
   m_Layer: 0
-  m_Name: CubeR
+  m_Name: WallR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

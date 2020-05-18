@@ -3,15 +3,16 @@ using Unity.Entities;
 using Unity.Collections;
 using Unity.NetCode;
 using Unity.Physics;
+using Unity.Rendering;
 using Unity.Transforms;
 
-public struct PuckGhostSerializer : IGhostSerializer<PuckSnapshotData>
+public struct ExtraBlockGhostSerializer : IGhostSerializer<ExtraBlockSnapshotData>
 {
     private ComponentType componentTypePhysicsCollider;
-    private ComponentType componentTypePhysicsDamping;
     private ComponentType componentTypePhysicsGravityFactor;
     private ComponentType componentTypePhysicsMass;
     private ComponentType componentTypePhysicsVelocity;
+    private ComponentType componentTypePerInstanceCullingTag;
     private ComponentType componentTypeLocalToWorld;
     private ComponentType componentTypeRotation;
     private ComponentType componentTypeTranslation;
@@ -22,17 +23,17 @@ public struct PuckGhostSerializer : IGhostSerializer<PuckSnapshotData>
 
     public int CalculateImportance(ArchetypeChunk chunk)
     {
-        return 10;
+        return 1;
     }
 
-    public int SnapshotSize => UnsafeUtility.SizeOf<PuckSnapshotData>();
+    public int SnapshotSize => UnsafeUtility.SizeOf<ExtraBlockSnapshotData>();
     public void BeginSerialize(ComponentSystemBase system)
     {
         componentTypePhysicsCollider = ComponentType.ReadWrite<PhysicsCollider>();
-        componentTypePhysicsDamping = ComponentType.ReadWrite<PhysicsDamping>();
         componentTypePhysicsGravityFactor = ComponentType.ReadWrite<PhysicsGravityFactor>();
         componentTypePhysicsMass = ComponentType.ReadWrite<PhysicsMass>();
         componentTypePhysicsVelocity = ComponentType.ReadWrite<PhysicsVelocity>();
+        componentTypePerInstanceCullingTag = ComponentType.ReadWrite<PerInstanceCullingTag>();
         componentTypeLocalToWorld = ComponentType.ReadWrite<LocalToWorld>();
         componentTypeRotation = ComponentType.ReadWrite<Rotation>();
         componentTypeTranslation = ComponentType.ReadWrite<Translation>();
@@ -40,7 +41,7 @@ public struct PuckGhostSerializer : IGhostSerializer<PuckSnapshotData>
         ghostTranslationType = system.GetArchetypeChunkComponentType<Translation>(true);
     }
 
-    public void CopyToSnapshot(ArchetypeChunk chunk, int ent, uint tick, ref PuckSnapshotData snapshot, GhostSerializerState serializerState)
+    public void CopyToSnapshot(ArchetypeChunk chunk, int ent, uint tick, ref ExtraBlockSnapshotData snapshot, GhostSerializerState serializerState)
     {
         snapshot.tick = tick;
         var chunkDataRotation = chunk.GetNativeArray(ghostRotationType);

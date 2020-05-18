@@ -13,11 +13,12 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
         {
             "PlayerGhostSerializer",
             "PuckGhostSerializer",
+            "ExtraBlockGhostSerializer",
         };
         return arr;
     }
 
-    public int Length => 2;
+    public int Length => 3;
 #endif
     public static int FindGhostType<T>()
         where T : struct, ISnapshotData<T>
@@ -26,6 +27,8 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
             return 0;
         if (typeof(T) == typeof(PuckSnapshotData))
             return 1;
+        if (typeof(T) == typeof(ExtraBlockSnapshotData))
+            return 2;
         return -1;
     }
 
@@ -33,6 +36,7 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
     {
         m_PlayerGhostSerializer.BeginSerialize(system);
         m_PuckGhostSerializer.BeginSerialize(system);
+        m_ExtraBlockGhostSerializer.BeginSerialize(system);
     }
 
     public int CalculateImportance(int serializer, ArchetypeChunk chunk)
@@ -43,6 +47,8 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
                 return m_PlayerGhostSerializer.CalculateImportance(chunk);
             case 1:
                 return m_PuckGhostSerializer.CalculateImportance(chunk);
+            case 2:
+                return m_ExtraBlockGhostSerializer.CalculateImportance(chunk);
         }
 
         throw new ArgumentException("Invalid serializer type");
@@ -56,6 +62,8 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
                 return m_PlayerGhostSerializer.SnapshotSize;
             case 1:
                 return m_PuckGhostSerializer.SnapshotSize;
+            case 2:
+                return m_ExtraBlockGhostSerializer.SnapshotSize;
         }
 
         throw new ArgumentException("Invalid serializer type");
@@ -73,12 +81,17 @@ public struct SelfDev_NetcodeGhostSerializerCollection : IGhostSerializerCollect
             {
                 return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<PuckGhostSerializer, PuckSnapshotData>(m_PuckGhostSerializer, ref dataStream, data);
             }
+            case 2:
+            {
+                return GhostSendSystem<SelfDev_NetcodeGhostSerializerCollection>.InvokeSerialize<ExtraBlockGhostSerializer, ExtraBlockSnapshotData>(m_ExtraBlockGhostSerializer, ref dataStream, data);
+            }
             default:
                 throw new ArgumentException("Invalid serializer type");
         }
     }
     private PlayerGhostSerializer m_PlayerGhostSerializer;
     private PuckGhostSerializer m_PuckGhostSerializer;
+    private ExtraBlockGhostSerializer m_ExtraBlockGhostSerializer;
 }
 
 public struct EnableSelfDev_NetcodeGhostSendSystemComponent : IComponentData
