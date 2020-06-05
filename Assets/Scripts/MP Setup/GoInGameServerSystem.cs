@@ -25,20 +25,21 @@ public class GoInGameServerSystem : ComponentSystem
                 var prefab = EntityManager.GetBuffer<GhostPrefabBuffer>(ghostCollection.serverPrefabs)[ghostId].Value;
                 var playerEntity = EntityManager.Instantiate(prefab);
 
-                EntityManager.AddComponent<MainPlayerData>(playerEntity);
-
                 int playerId = EntityManager.GetComponentData<NetworkIdComponent>(reqSrc.SourceConnection).Value;
-                EntityManager.SetComponentData(playerEntity, new MovableCubeComponent {PlayerId = playerId});
+                EntityManager.AddComponentData(playerEntity, new MovableCubeComponent {PlayerId = playerId});
                 PostUpdateCommands.AddBuffer<CubeInput>(playerEntity);
+                
+                EntityManager.AddComponentData(playerEntity, new MainPlayerData {teamID = playerId});
+                TeamData teamData = new TeamData() { teamID = playerId};
 
                 bool up = (playerId % 2) == 0;
                 EntityManager.SetComponentData(playerEntity, new Translation { Value = up ?
                     new float3(0f, 0f, POS) : new float3(0f, 0f, -POS)});
 
-                AddExtraBlock(playerEntity, 1f);
-                AddExtraBlock(playerEntity, 2f);
-                AddExtraBlock(playerEntity, -1f);
-                AddExtraBlock(playerEntity, -2f);
+                AddExtraBlock(playerEntity, 1f, teamData, playerId);
+                AddExtraBlock(playerEntity, 2f, teamData, playerId);
+                AddExtraBlock(playerEntity, -1f, teamData, playerId);
+                AddExtraBlock(playerEntity, -2f, teamData, playerId);
 
                 Debug.Log($"Creating input buffer {playerEntity}");
                 
@@ -48,7 +49,7 @@ public class GoInGameServerSystem : ComponentSystem
             });
     }
 
-    void AddExtraBlock(Entity centerEntity, float offset)
+    void AddExtraBlock(Entity centerEntity, float offset, in TeamData teamData, int playerId)
     {
         var ghostCollection = GetSingleton<GhostPrefabCollectionComponent>();
         var ghostId = SelfDev_NetcodeGhostSerializerCollection.FindGhostType<ExtraBlockSnapshotData>();
@@ -57,18 +58,8 @@ public class GoInGameServerSystem : ComponentSystem
         
         EntityManager.AddComponentData(blockEntity, new FixToTargetData() {targetEntity = centerEntity, offset = offset});
         EntityManager.AddComponent<ExtraCubeData>(blockEntity);
-
-        /*var jointComponentData = new PhysicsJoint
-        {
-            JointData = JointData.CreateFixed(
-                new RigidTransform(Quaternion.identity, float3.zero),
-                new RigidTransform(Quaternion.identity, offset)
-            ),
-            EntityA = blockEntity,
-            EntityB = centerEntity,
-            EnableCollision = 0,
-        };
-        EntityManager.AddComponentData(blockEntity, jointComponentData);*/
+        EntityManager.AddComponentData(blockEntity, new MovableCubeComponent {PlayerId = playerId});
+        EntityManager.AddSharedComponentData(blockEntity, teamData);
     }
 
     private const float POS = 6.5f;

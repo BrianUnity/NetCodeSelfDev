@@ -7,7 +7,7 @@ struct ServerPuckData : IComponentData
 
 struct MainPlayerData : IComponentData
 {
-    
+    public int teamID;
 }
 
 public struct FixToTargetData : IComponentData
@@ -18,4 +18,9 @@ public struct FixToTargetData : IComponentData
 
 struct ExtraCubeData : IComponentData
 {
+}
+
+struct TeamData : ISharedComponentData
+{
+    public int teamID;
 }
