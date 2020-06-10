@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4110285918928837536}
-  - component: {fileID: 6001613581869963004}
   - component: {fileID: -5691384494519776994}
   - component: {fileID: 7552406481652460328}
   - component: {fileID: 2983426137253287968}
   - component: {fileID: 6139621269665324311}
   - component: {fileID: 6332568591474668813}
+  - component: {fileID: -1650203831299127127}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -36,19 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6001613581869963004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7173737190318924663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89e32604b4f2d854eb0aaf3d5b97e80f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerId: 0
 --- !u!114 &-5691384494519776994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +48,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: d7737d7509c024947a9d0c7ef70d1cd7
   DefaultClientInstantiationType: 2
   RootPath: ..\Scripts\AutoGen\
   SnapshotDataPath: CubeSnapshotData.cs
@@ -116,7 +102,7 @@ MonoBehaviour:
   - name: Unity.Rendering.PerInstanceCullingTag
     interpolatedClient: 1
     predictedClient: 1
-    server: 1
+    server: 0
     sendDataTo: 0
     fields: []
     manualFieldList: 0
@@ -124,7 +110,7 @@ MonoBehaviour:
   - name: Unity.Rendering.RenderBounds
     interpolatedClient: 1
     predictedClient: 1
-    server: 1
+    server: 0
     sendDataTo: 0
     fields: []
     manualFieldList: 0
@@ -132,7 +118,7 @@ MonoBehaviour:
   - name: Unity.Rendering.RenderMesh
     interpolatedClient: 1
     predictedClient: 1
-    server: 1
+    server: 0
     sendDataTo: 0
     fields: []
     manualFieldList: 0
@@ -167,6 +153,8 @@ MonoBehaviour:
       interpolate: 1
     manualFieldList: 0
     entityIndex: 0
+  prefabId: d7737d7509c024947a9d0c7ef70d1cd7
+  Name: Player
   doNotStrip: 0
 --- !u!114 &7552406481652460328
 MonoBehaviour:
@@ -337,3 +325,16 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-1650203831299127127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7173737190318924663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89e32604b4f2d854eb0aaf3d5b97e80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerId: 1

@@ -11,13 +11,13 @@ public class FollowCenterBlockSystem : ComponentSystem
     {
         Entities.ForEach((ref MainPlayerData mainPlayer, ref Translation targetTranslation) =>
         {
-            Debug.Log($"Setting Pos: {mainPlayer.teamID}: {targetTranslation}");
+            //Debug.Log($"Setting Pos: {mainPlayer.teamID}: {targetTranslation}");
             
             int playerId = mainPlayer.teamID;
             Translation target = targetTranslation;
             Entities.ForEach((ref MovableCubeComponent player, ref FixToTargetData targetData, ref Translation cubeTranslation) =>
             {
-                Debug.Log($"Setting Pos: {player.PlayerId} -> {playerId}: {cubeTranslation.Value} -> {target.Value}");
+                //Debug.Log($"Setting Pos: {player.PlayerId} -> {playerId}: {cubeTranslation.Value} -> {target.Value}");
                 
                 if (player.PlayerId != playerId)
                     return;

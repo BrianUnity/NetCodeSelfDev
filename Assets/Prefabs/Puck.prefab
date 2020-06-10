@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c79d771cedb4794bf100ce60df5f764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabId: dc419a080c4c8544892b15edbd7cd136
   DefaultClientInstantiationType: 0
   RootPath: ..\Scripts\AutoGen\
   SnapshotDataPath: SphereSnapshotData.cs
@@ -197,6 +196,8 @@ MonoBehaviour:
       interpolate: 1
     manualFieldList: 0
     entityIndex: 0
+  prefabId: dc419a080c4c8544892b15edbd7cd136
+  Name: Puck
   doNotStrip: 0
 --- !u!114 &-5474891303852146325
 MonoBehaviour:

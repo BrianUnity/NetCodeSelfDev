@@ -103,4 +103,9 @@ public class SelfDev_NetcodeGhostSendSystem : GhostSendSystem<SelfDev_NetcodeGho
         base.OnCreate();
         RequireSingletonForUpdate<EnableSelfDev_NetcodeGhostSendSystemComponent>();
     }
+
+    public override bool IsEnabled()
+    {
+        return HasSingleton<EnableSelfDev_NetcodeGhostSendSystemComponent>();
+    }
 }
